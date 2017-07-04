@@ -20,7 +20,7 @@ public class LogicaEmpleado {
     private Connection cn = mysql.conectar(); // Llama a la función conectar
     private String sSQL = ""; // Almacena el codigo SQL
     private String sSQL2 = ""; // Almacena el codigo SQL
-    private int totalRegistros; // Cuenta el total de registros
+    public int totalRegistros; // Cuenta el total de registros
     
     // Muestra los regsitros de la BD de la tabla Empleado
     public DefaultTableModel mostrar(String buscar) {
@@ -43,9 +43,9 @@ public class LogicaEmpleado {
         // idPersona según el parámetro a buscar de forma descendente
         sSQL = "select p.idPersona, p.nombre, p.apellidoPaterno, " +
                "p.apellidoMaterno, p.tipoDocumento, p.numDocumento, " +
-               "p.direccion, p.telefono, p.email, t.sueldo, t.acceso " +
-               "t.login, t.password, t.estado from Persona p inner join " +
-               "Trabajador t on p.idPersona = t.idPersona where numDocumento " +
+               "p.direccion, p.telefono, p.email, e.sueldo, e.acceso, " +
+               "e.login, e.password, e.estado from Persona p inner join " +
+               "Empleado e on p.idPersona=e.idPersona where numDocumento " +
                "like '%" + buscar + "%' order by idPersona desc";
         
         try {
@@ -95,7 +95,7 @@ public class LogicaEmpleado {
         // Instrucción SQL que inserta un regsitro en la tabla Persona
         sSQL2 = "insert into Empleado (idPersona, sueldo, acceso, login, " +
                 "password, estado) values ((select idPersona from Persona " +
-                "order by idPersona desc limit 1), ?, ?, ?, ?, ?";
+                "order by idPersona desc limit 1), ?, ?, ?, ?, ?)";
         
         try {
             // Contiene la cadena SQL para insertar un registro
