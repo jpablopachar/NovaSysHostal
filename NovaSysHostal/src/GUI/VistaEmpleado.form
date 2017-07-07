@@ -152,7 +152,7 @@
                               <Group type="102" attributes="0">
                                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="txtIdPersona" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtIdEmpleado" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="173" max="-2" attributes="0"/>
@@ -167,7 +167,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtIdPersona" alignment="1" min="-2" pref="7" max="-2" attributes="0"/>
+                      <Component id="txtIdEmpleado" alignment="1" min="-2" pref="7" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -363,7 +363,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelarActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtIdPersona">
+        <Component class="javax.swing.JTextField" name="txtIdEmpleado">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel8">
           <Properties>

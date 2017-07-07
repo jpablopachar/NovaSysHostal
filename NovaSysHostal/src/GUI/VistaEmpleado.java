@@ -39,7 +39,7 @@ public class VistaEmpleado extends javax.swing.JFrame {
     
     // Deshabilita todas las cajas de texto y botones
     void inHabilitar() {
-        txtIdPersona.setVisible(false);
+        txtIdEmpleado.setVisible(false);
         txtNombre.setEnabled(false);
         txtApellidoPaterno.setEnabled(false);
         txtApellidoMaterno.setEnabled(false);
@@ -58,7 +58,7 @@ public class VistaEmpleado extends javax.swing.JFrame {
         btnCancelar.setEnabled(false);
         btnEliminar.setEnabled(false);
         
-        txtIdPersona.setText("");
+        txtIdEmpleado.setText("");
         txtNombre.setText("");
         txtApellidoPaterno.setText("");
         txtApellidoMaterno.setText("");
@@ -73,7 +73,7 @@ public class VistaEmpleado extends javax.swing.JFrame {
     
     // Procedimiento para habilitar todas las cajas de textos y botones
     void habilitar() {
-        txtIdPersona.setVisible(true);
+        txtIdEmpleado.setVisible(true);
         txtNombre.setEnabled(true);
         txtApellidoPaterno.setEnabled(true);
         txtApellidoMaterno.setEnabled(true);
@@ -92,7 +92,7 @@ public class VistaEmpleado extends javax.swing.JFrame {
         btnCancelar.setEnabled(true);
         btnEliminar.setEnabled(true);
         
-        txtIdPersona.setText("");
+        txtIdEmpleado.setText("");
         txtNombre.setText("");
         txtApellidoPaterno.setText("");
         txtApellidoMaterno.setText("");
@@ -148,7 +148,7 @@ public class VistaEmpleado extends javax.swing.JFrame {
         btnNuevo = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        txtIdPersona = new javax.swing.JTextField();
+        txtIdEmpleado = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         txtApellidoMaterno = new javax.swing.JTextField();
         cboTipoDocumento = new javax.swing.JComboBox<>();
@@ -388,7 +388,7 @@ public class VistaEmpleado extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtIdPersona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtIdEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(173, 173, 173))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -397,7 +397,7 @@ public class VistaEmpleado extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(txtIdPersona, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtIdEmpleado, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -696,7 +696,7 @@ public class VistaEmpleado extends javax.swing.JFrame {
                 inHabilitar();
             }
         } else if (accion.equals("editar")) { // Acción para Editar
-            empleado.setIdPersona(Integer.parseInt(txtIdPersona.getText()));
+            empleado.setIdEmpleado(Integer.parseInt(txtIdEmpleado.getText()));
 
             if (logicaEmpleado.editar(empleado)) {
                 JOptionPane.showMessageDialog(rootPane, "El empleado fue " +
@@ -771,7 +771,7 @@ public class VistaEmpleado extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         // Evalua que mi txtIdPersona no esté vacía
-        if (!txtIdPersona.getText().equals("")) {
+        if (!txtIdEmpleado.getText().equals("")) {
             int confirmacion = JOptionPane.showConfirmDialog(rootPane, "¿Estás seguro de eliminar el empleado?","Confirmar",2);
 
             // Si el usuario confirma se procede a la eliminación
@@ -779,7 +779,7 @@ public class VistaEmpleado extends javax.swing.JFrame {
                 LogicaEmpleado logicaEmpleado = new LogicaEmpleado();
                 Empleado empleado = new Empleado();
 
-                empleado.setIdPersona(Integer.parseInt(txtIdPersona.getText()));
+                empleado.setIdEmpleado(Integer.parseInt(txtIdEmpleado.getText()));
                 logicaEmpleado.eliminar(empleado);
                 mostrar("");
                 inHabilitar();
@@ -796,7 +796,7 @@ public class VistaEmpleado extends javax.swing.JFrame {
 
         int fila = tablaListado.rowAtPoint(evt.getPoint());
 
-        txtIdPersona.setText(tablaListado.getValueAt(fila, 0).toString());
+        txtIdEmpleado.setText(tablaListado.getValueAt(fila, 0).toString());
         txtNombre.setText(tablaListado.getValueAt(fila, 1).toString());
         txtApellidoPaterno.setText(tablaListado.getValueAt(fila, 2).toString());
         txtApellidoMaterno.setText(tablaListado.getValueAt(fila, 3).toString());
@@ -887,7 +887,7 @@ public class VistaEmpleado extends javax.swing.JFrame {
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtIdPersona;
+    private javax.swing.JTextField txtIdEmpleado;
     private javax.swing.JTextField txtLogin;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtNumDocumento;

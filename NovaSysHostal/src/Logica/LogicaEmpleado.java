@@ -19,7 +19,6 @@ public class LogicaEmpleado {
     private Conexion mysql = new Conexion(); // Instancia la clase Conexion
     private Connection cn = mysql.conectar(); // Llama a la función conectar
     private String sSQL = ""; // Almacena el codigo SQL
-    private String sSQL2 = ""; // Almacena el codigo SQL
     public int totalRegistros; // Cuenta el total de registros
     
     // Muestra los regsitros de la BD de la tabla Empleado
@@ -40,13 +39,8 @@ public class LogicaEmpleado {
         modelo = new DefaultTableModel(null, titulos);
         
         // Selecciona los registros de la tabla Empleado y filtra por
-        // idPersona según el parámetro a buscar de forma descendente
-        sSQL = "select p.idPersona, p.nombre, p.apellidoPaterno, " +
-               "p.apellidoMaterno, p.tipoDocumento, p.numDocumento, " +
-               "p.direccion, p.telefono, p.email, e.sueldo, e.acceso, " +
-               "e.login, e.password, e.estado from Persona p inner join " +
-               "Empleado e on p.idPersona=e.idPersona where numDocumento " +
-               "like '%" + buscar + "%' order by idPersona desc";
+        // idEmpleado según el parámetro a buscar de forma descendente
+        sSQL = "select * from Empleado where numDocumento like '%" + buscar + "%' order by idEmpleado desc";
         
         try {
             Statement st = cn.createStatement();
@@ -56,7 +50,7 @@ public class LogicaEmpleado {
             while (rs.next()) {
                 // Se almacenan los registros obtenidos por la variable rs
                 // de la tabla Empleado
-                registro[0] = rs.getString("idPersona");
+                registro[0] = rs.getString("idEmpleado");
                 registro[1] = rs.getString("nombre");
                 registro[2] = rs.getString("apellidoPaterno");
                 registro[3] = rs.getString("apellidoMaterno");
@@ -88,19 +82,15 @@ public class LogicaEmpleado {
     // Inserta un registro en la tabla Empleado
     // Recibe por parámetro la clase Empleado
     public boolean insertar(Empleado empleado) {
-        // Instrucción SQL que inserta un regsitro en la tabla Persona
-        sSQL = "insert into Persona (nombre, apellidoPaterno, apellidoMaterno, " +
-               "tipoDocumento, numDocumento, direccion, telefono, email) " +
-               "values (?, ?, ?, ?, ?, ?, ?, ?)";
-        // Instrucción SQL que inserta un regsitro en la tabla Persona
-        sSQL2 = "insert into Empleado (idPersona, sueldo, acceso, login, " +
-                "password, estado) values ((select idPersona from Persona " +
-                "order by idPersona desc limit 1), ?, ?, ?, ?, ?)";
+        // Instrucción SQL que inserta un registro en la tabla Empleado
+        sSQL = "insert into Empleado (nombre, apellidoPaterno, apellidoMaterno, " +
+               "tipoDocumento, numDocumento, direccion, telefono, email, " +
+               "sueldo, acceso, login, password, estado) " +
+               "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
             // Contiene la cadena SQL para insertar un registro
             PreparedStatement pst = cn.prepareStatement(sSQL);
-            PreparedStatement pst2 = cn.prepareStatement(sSQL2);
             
             // Envía uno a uno los valores a la instrucción SQL
             pst.setString(1, empleado.getNombre());
@@ -111,25 +101,18 @@ public class LogicaEmpleado {
             pst.setString(6, empleado.getDireccion());
             pst.setString(7, empleado.getTelefono());
             pst.setString(8, empleado.getEmail());
-            // Envia uno a uno los valores a la instrucción SQL2
-            pst2.setDouble(1, empleado.getSueldo());
-            pst2.setString(2, empleado.getAcceso());
-            pst2.setString(3, empleado.getLogin());
-            pst2.setString(4, empleado.getPassword());
-            pst2.setString(5, empleado.getEstado());
+            pst.setDouble(9, empleado.getSueldo());
+            pst.setString(10, empleado.getAcceso());
+            pst.setString(11, empleado.getLogin());
+            pst.setString(12, empleado.getPassword());
+            pst.setString(13, empleado.getEstado());
             
             // Almacena el resultado de ejecución de la cadena SQL
             int n = pst.executeUpdate();
             
             // Se cumple o no la inserción de registros en la tabla Empleado
             if (n != 0) {
-                int n2 = pst2.executeUpdate();
-                
-                if (n2 != 0) {
-                    return true; // Se ha insertado el registro
-                } else {
-                    return false;
-                }
+                return true; // Se ha insertado en el registro
             } else {
                 return false; // No se ha insertado el registro
             }
@@ -141,18 +124,15 @@ public class LogicaEmpleado {
     
     // Edita un registro en la tabla Empleado
     public boolean editar(Empleado empleado) {
-        // Modifica la tabla Persona enviando una variable
-        sSQL = "update Persona set nombre=?, apellidoPaterno=?, " +
+        // Modifica la tabla Empelado enviando una variable
+        sSQL = "update Empleado set nombre=?, apellidoPaterno=?, " +
                "apellidoMaterno=?, tipoDocumento=?, numDocumento=?, " +
-               "direccion=?, telefono=?, email=? where idPersona=?";
-        // Modifica la tabla Empleado enviando una variable
-        sSQL2 = "update Empleado set sueldo=?, acceso=?, login=?, password=?, " +
-                "estado=? where idPersona=?";
+               "direccion=?, telefono=?, email=?, sueldo=?, " +
+               "acceso=?, login=?, password=?, estado=? where idEmpleado=?";
         
         try {
             // Contiene la cadena SQL para modificar un registro
             PreparedStatement pst = cn.prepareStatement(sSQL);
-            PreparedStatement pst2 = cn.prepareStatement(sSQL2);
             
             // Envía uno a uno los valores a la instrucción SQL
             pst.setString(1, empleado.getNombre());
@@ -163,29 +143,21 @@ public class LogicaEmpleado {
             pst.setString(6, empleado.getDireccion());
             pst.setString(7, empleado.getTelefono());
             pst.setString(8, empleado.getEmail());
-            pst.setInt(9, empleado.getIdPersona());
-            // Envia uno a uno los valores a la instrucción SQL2
-            pst2.setDouble(1, empleado.getSueldo());
-            pst2.setString(2, empleado.getAcceso());
-            pst2.setString(3, empleado.getLogin());
-            pst2.setString(4, empleado.getPassword());
-            pst2.setString(5, empleado.getEstado());
-            pst2.setInt(6, empleado.getIdPersona());
+            pst.setDouble(9, empleado.getSueldo());
+            pst.setString(10, empleado.getAcceso());
+            pst.setString(11, empleado.getLogin());
+            pst.setString(12, empleado.getPassword());
+            pst.setString(13, empleado.getEstado());
+            pst.setInt(14, empleado.getIdEmpleado());
             
             // Almacena el resultado de ejecución de la cadena SQL
             int n = pst.executeUpdate();
             
             // Se cumple o no la inserción de registros en la tabla Empleado
             if (n != 0) {
-                int n2 = pst2.executeUpdate();
-                
-                if (n2 != 0) {
-                    return true; // Se ha insertado el registro
-                } else {
-                    return false;
-                }
+                return true; // Se ha modificado el registro
             } else {
-                return false; // No se ha insertado el registro
+                return false; // No se ha modificado el registro
             }
         } catch (SQLException e) {
             JOptionPane.showConfirmDialog(null, e); // Muestra el error
@@ -195,33 +167,22 @@ public class LogicaEmpleado {
     
     // Elimina un registro en la tabla Empleado
     public boolean eliminar(Empleado empleado) {
-        // Elimina de la tabla Empleado un registro donde sea igual a idPersona
-        sSQL = "delete from Empleado where idPersona=?";
-        // Elimina de la tabla Persona un registro donde sea igual a idPersona
-        sSQL2 = "delete from Persona where idPersona=?";
+        // Elimina de la tabla Empleado un registro donde sea igual a idEmpleado
+        sSQL = "delete from Empleado where idEmpleado=?";
         
         try {
             // Contiene la cadena SQL para modificar un registro
             PreparedStatement pst = cn.prepareStatement(sSQL);
-            PreparedStatement pst2 = cn.prepareStatement(sSQL2);
             
             // Envía uno a uno los valores a la instrucción SQL
-            pst.setInt(1, empleado.getIdPersona());
-            // Envia uno a uno los valores a la instrucción SQL2
-            pst2.setInt(1, empleado.getIdPersona());
+            pst.setInt(1, empleado.getIdEmpleado());
             
             // Almacena el resultado de ejecución de la cadena SQL
             int n = pst.executeUpdate();
             
             // Se cumple o no la eliminación de registros en la tabla Empleado
             if (n != 0) {
-                int n2 = pst2.executeUpdate();
-                
-                if (n2 != 0) {
-                    return true; // Se ha eliminado el registro
-                } else {
-                    return false;
-                }
+                return true; // Se ha eliminado el registro
             } else {
                 return false; // No se ha eliminado el registro
             }
