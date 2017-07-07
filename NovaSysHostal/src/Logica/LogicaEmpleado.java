@@ -40,7 +40,8 @@ public class LogicaEmpleado {
         
         // Selecciona los registros de la tabla Empleado y filtra por
         // idEmpleado según el parámetro a buscar de forma descendente
-        sSQL = "select * from Empleado where numDocumento like '%" + buscar + "%' order by idEmpleado desc";
+        sSQL = "select * from Empleado where numDocumento like '%" + buscar +
+               "%' order by idEmpleado desc";
         
         try {
             Statement st = cn.createStatement();
