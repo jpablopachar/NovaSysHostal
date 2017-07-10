@@ -21,7 +21,7 @@ public class LogicaEmpleado {
     private String sSQL = ""; // Almacena el codigo SQL
     public int totalRegistros; // Cuenta el total de registros
     
-    // Muestra los regsitros de la BD de la tabla Empleado
+    // Muestra los registros de la BD de la tabla Empleado
     public DefaultTableModel mostrar(String buscar) {
         DefaultTableModel modelo;
         
@@ -34,12 +34,12 @@ public class LogicaEmpleado {
         
         // Arreglo que almacena los registros de cada titulo
         String[] registro = new String[14];
-        totalRegistros = 0;
+        totalRegistros = 0; // Se inicializa en 0
         // Se agrega los titulos de la tabla
         modelo = new DefaultTableModel(null, titulos);
         
         // Selecciona los registros de la tabla Empleado y filtra por
-        // idEmpleado según el parámetro a buscar de forma descendente
+        // numDocumento según el parámetro a buscar de forma descendente
         sSQL = "select * from Empleado where numDocumento like '%" + buscar +
                "%' order by idEmpleado desc";
         
