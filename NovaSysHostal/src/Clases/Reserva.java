@@ -11,7 +11,7 @@ import java.sql.Date;
 public class Reserva {
     private int idReserva;
     private int idCliente;
-    private int idTrabajador;
+    private int idEmpleado;
     private String tipoReserva; // Tipo de la reserva
     private Date fechaReserva; // Fecha de la reserva
     private Date fechaIngreso; // Fecha de ingreso de la reserva
@@ -22,12 +22,12 @@ public class Reserva {
     public Reserva() {
     }
 
-    public Reserva(int idReserva, int idCliente, int idTrabajador,
+    public Reserva(int idReserva, int idCliente, int idEmpleado,
             String tipoReserva, Date fechaReserva, Date fechaIngreso,
             Date fechaSalida, double costoAlojamiento, String estado) {
         this.idReserva = idReserva;
         this.idCliente = idCliente;
-        this.idTrabajador = idTrabajador;
+        this.idEmpleado = idEmpleado;
         this.tipoReserva = tipoReserva;
         this.fechaReserva = fechaReserva;
         this.fechaIngreso = fechaIngreso;
@@ -52,12 +52,12 @@ public class Reserva {
         this.idCliente = idCliente;
     }
 
-    public int getIdTrabajador() {
-        return idTrabajador;
+    public int getIdEmpleado() {
+        return idEmpleado;
     }
 
-    public void setIdTrabajador(int idTrabajador) {
-        this.idTrabajador = idTrabajador;
+    public void setIdEmpleado(int idEmpleado) {
+        this.idEmpleado = idEmpleado;
     }
 
     public String getTipoReserva() {
@@ -106,5 +106,5 @@ public class Reserva {
 
     public void setEstado(String estado) {
         this.estado = estado;
-    }
+    } 
 }
