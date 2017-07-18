@@ -1,21 +1,98 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GUI;
 
-/**
- *
- * @author jppachar
- */
-public class VistaServicio extends javax.swing.JFrame {
+import Clases.Servicio;
+import Logica.LogicaServicio;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+/*
+    Author: Juan Pablo Pachar.
+    Fecha: 17 de julio del 2017
+    Modulo: Interfaz de usuario de la ventana Servicio
+*/
+
+public class VistaServicio extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form VistaServicio
      */
     public VistaServicio() {
         initComponents();
+        mostrar("");
+        inHabilitar();
+    }
+    
+    // Determina si la acción que se ejecuta es guardar o editar
+    private String accion = "guardar"; 
+    
+    // Procedimiento para ocultar la columna de idServicio
+    void ocultarColumna() {
+        // De la tabla listado la columna 0 = 0
+        tablaListado.getColumnModel().getColumn(0).setMaxWidth(0);
+        tablaListado.getColumnModel().getColumn(0).setMinWidth(0);
+        tablaListado.getColumnModel().getColumn(0).setPreferredWidth(0);
+    }
+    
+    // Procedimiento para deshabilitar todas las cajas de textos y botones
+    void inHabilitar() {
+        txtIdServicio.setVisible(false);
+        txtNombre.setEnabled(false);
+        txtCantidad.setEnabled(false);
+        txtDescripcion.setEnabled(false);
+        txtCaracteristicas.setEnabled(false);
+        txtPrecio.setEnabled(false);
+        cboEstado.setEnabled(false);
+        
+        btnGuardar.setEnabled(false);
+        btnCancelar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        
+        txtIdServicio.setText("");
+        txtNombre.setText("");
+        txtCantidad.setText("");
+        txtDescripcion.setText("");
+        txtCaracteristicas.setText("");
+        txtPrecio.setText("");
+    }
+    
+    // Procedimiento para habilitar todas las cajas de textos y botones
+    void habilitar() {
+        txtIdServicio.setVisible(false);
+        txtNombre.setEnabled(true);
+        txtCantidad.setEnabled(true);
+        txtDescripcion.setEnabled(true);
+        txtCaracteristicas.setEnabled(true);
+        txtPrecio.setEnabled(true);
+        cboEstado.setEnabled(true);
+        
+        btnGuardar.setEnabled(true);
+        btnCancelar.setEnabled(true);
+        btnEliminar.setEnabled(true);
+        
+        txtIdServicio.setText("");
+        txtNombre.setText("");
+        txtCantidad.setText("");
+        txtDescripcion.setText("");
+        txtCaracteristicas.setText("");
+        txtPrecio.setText("");
+    }
+    
+    // Procedimiento para que realizar la busqueda
+    void mostrar(String buscar) {
+        try {
+            DefaultTableModel modelo;
+            
+            // Instancia de la clase LogicaProducto
+            LogicaServicio logicaServicio = new LogicaServicio();
+            // Almacena el resultado del metodo mostrar de la clase LogicaProducto
+            modelo = logicaServicio.mostrar(buscar);
+            
+            tablaListado.setModel(modelo);
+            ocultarColumna();
+            totalRegistros.setText("Total Registros: " + Integer.toString(logicaServicio.totalRegistros));
+        } catch (Exception e) {
+            JOptionPane.showConfirmDialog(rootPane, e);
+        }
     }
 
     /**
@@ -50,13 +127,16 @@ public class VistaServicio extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaListado = new javax.swing.JTable();
         totalRegistros = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setIconifiable(true);
+        setMaximizable(true);
 
         jPanel2.setBackground(new java.awt.Color(0, 184, 212));
 
@@ -92,12 +172,27 @@ public class VistaServicio extends javax.swing.JFrame {
 
         btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/nuevo.png"))); // NOI18N
         btnNuevo.setText("Nuevo");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/guardar.png"))); // NOI18N
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/return.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         txtDescripcion.setColumns(20);
         txtDescripcion.setRows(5);
@@ -196,12 +291,27 @@ public class VistaServicio extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(0, 184, 212));
 
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/buscar.png"))); // NOI18N
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/eliminar.png"))); // NOI18N
-        jButton1.setText("Eliminar");
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/eliminar.png"))); // NOI18N
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/salir.png"))); // NOI18N
-        jButton2.setText("Salir");
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/salir.png"))); // NOI18N
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         tablaListado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -214,6 +324,11 @@ public class VistaServicio extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tablaListado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaListadoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaListado);
 
         totalRegistros.setForeground(new java.awt.Color(255, 255, 255));
@@ -232,9 +347,9 @@ public class VistaServicio extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnBuscar)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)
+                        .addComponent(btnEliminar)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)))
+                        .addComponent(btnSalir)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -247,13 +362,13 @@ public class VistaServicio extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton1)
-                        .addComponent(jButton2))
+                        .addComponent(btnEliminar)
+                        .addComponent(btnSalir))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(btnBuscar)
                         .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(totalRegistros)
                 .addContainerGap())
@@ -282,6 +397,145 @@ public class VistaServicio extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        // TODO add your handling code here:
+        habilitar();
+        // Boton en su caption Guardar
+        btnGuardar.setText("Guardar");
+
+        accion = "guardar";
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        
+        // Valida que al presionar guardar las cajas de texto tengan contenido
+
+        // Valida el nombre del servicio
+        if (txtNombre.getText().length() == 0) {
+            JOptionPane.showConfirmDialog(rootPane, "Debes ingresar el nombre del servicio");
+            // Enviamos el enfoque a la caja de texto correspondiente
+            txtNombre.requestFocus();
+            return;
+        }
+        
+        // Valida la cantidad del servicio disponible
+        if (txtCantidad.getText().length() == 0) {
+            JOptionPane.showConfirmDialog(rootPane, "Debes ingresar la cantidad disponible");
+            // Enviamos el enfoque a la caja de texto correspondiente
+            txtCantidad.requestFocus();
+            return;
+        }
+
+        // Valida la descripcion del servicio
+        if (txtDescripcion.getText().length() == 0) {
+            JOptionPane.showConfirmDialog(rootPane, "Debes ingresar una descripción del servicio");
+            txtDescripcion.requestFocus();
+            return;
+        }
+        
+        // Valida las caracteristicas del servicio
+        if (txtCaracteristicas.getText().length() == 0) {
+            JOptionPane.showConfirmDialog(rootPane, "Debes ingresar las características del servicio");
+            txtCaracteristicas.requestFocus();
+            return;
+        }
+
+        // Valida el precio del servicio
+        if (txtPrecio.getText().length() == 0) {
+            JOptionPane.showConfirmDialog(rootPane, "Debes ingresar el precio del servicio");
+            txtPrecio.requestFocus();
+            return;
+        }
+
+        // Instanciamos la clase y las funciones del servicio
+        Servicio servicio = new Servicio();
+        LogicaServicio logicaServicio = new LogicaServicio();
+
+        // Enviamos los datos hacia los metodos set de la clase Servicio
+        servicio.setNombre(txtNombre.getText());
+        servicio.setCantidad(Double.parseDouble(txtCantidad.getText()));
+        servicio.setDescripcion(txtDescripcion.getText());
+        servicio.setCaracteristicas(txtCaracteristicas.getText());
+        servicio.setPrecio(Double.parseDouble(txtPrecio.getText()));
+
+        // comboBox Unidad de medida
+        int seleccionado = cboEstado.getSelectedIndex();
+        servicio.setEstado((String)cboEstado.getItemAt(seleccionado));
+
+        // Acción para guardar
+        if (accion.equals("guardar")) {
+            if (logicaServicio.insertar(servicio)) {
+                JOptionPane.showMessageDialog(rootPane, "El servicio fue registrado correctamente");
+                mostrar(""); // Muestra todos los registros
+                inHabilitar();
+            }
+        } else if (accion.equals("editar")) { // Acción para Editar
+            servicio.setIdServicio(Integer.parseInt(txtIdServicio.getText()));
+
+            if (logicaServicio.editar(servicio)) {
+                JOptionPane.showMessageDialog(rootPane, "El servicio fue editado correctamente");
+                mostrar(""); // Muestra todos los registros
+                inHabilitar();
+            }
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+        
+        // Muestra lo que ingrese en txtBuscar al presionar el botón Guardar
+        mostrar(txtBuscar.getText());
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        
+        // Evalua que mi txtIdProducto no esté vacía
+        if (!txtIdServicio.getText().equals("")) {
+            int confirmacion = JOptionPane.showConfirmDialog(rootPane, "¿Estás seguro de eliminar el servicio?","Confirmar",2);
+
+            // Si el usuario confirma se procede a la eliminación
+            if (confirmacion == 0) {
+                LogicaServicio logicaServicio = new LogicaServicio();
+                Servicio servicio = new Servicio();
+
+                servicio.setIdServicio(Integer.parseInt(txtIdServicio.getText()));
+                logicaServicio.eliminar(servicio);
+                mostrar("");
+                inHabilitar();
+            }
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void tablaListadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaListadoMouseClicked
+        // TODO add your handling code here:
+        btnGuardar.setText("Editar");
+        habilitar();
+        btnEliminar.setEnabled(true);
+        accion = "editar";
+
+        int fila = tablaListado.rowAtPoint(evt.getPoint());
+
+        txtIdServicio.setText(tablaListado.getValueAt(fila, 0).toString());
+        txtNombre.setText(tablaListado.getValueAt(fila, 1).toString());
+        txtCantidad.setText(tablaListado.getValueAt(fila, 2).toString());
+        txtDescripcion.setText(tablaListado.getValueAt(fila, 3).toString());
+        txtCaracteristicas.setText(tablaListado.getValueAt(fila, 4).toString());
+        txtPrecio.setText(tablaListado.getValueAt(fila, 5).toString());
+        cboEstado.setSelectedItem(tablaListado.getValueAt(fila, 6).toString());
+    }//GEN-LAST:event_tablaListadoMouseClicked
 
     /**
      * @param args the command line arguments
@@ -321,11 +575,11 @@ public class VistaServicio extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> cboEstado;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

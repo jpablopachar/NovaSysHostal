@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableModel;
 
 /*
     Author: Juan Pablo Pachar.
-    Fecha: 7 de julio del 2017
+    Fecha: 15 de julio del 2017
     Modulo: Permite mostrar, insertar, editar, eliminar una reserva
 */
 

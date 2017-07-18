@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableModel;
     Modulo: Interfaz de usuario de la ventana Cliente
 */
 
-public class VistaCliente extends javax.swing.JFrame {
+public class VistaCliente extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form VistaServicio
@@ -149,7 +149,10 @@ public class VistaCliente extends javax.swing.JFrame {
         tablaListado = new javax.swing.JTable();
         totalRegistros = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setIconifiable(true);
+        setMaximizable(true);
 
         jPanel2.setBackground(new java.awt.Color(174, 213, 129));
 
