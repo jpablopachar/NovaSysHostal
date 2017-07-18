@@ -192,4 +192,47 @@ public class LogicaEmpleado {
             return false;
         }
     }
+    
+    // Valida el ingreso del Empleado segun el cargo que ocupe
+    public DefaultTableModel login(String login, String password) {
+        DefaultTableModel modelo;
+        
+        // Vector que guarda una referencia de los titulos de la columna
+        String[] titulos = {"Id", "Nombre", "Apellido Paterno", 
+            "Apellido Materno", "Acceso", "Login", "Password", "Estado"};
+        // Vector que almacena los registros de cada titulo
+        String[] registro = new String[8];
+        totalRegistros = 0;
+        modelo = new DefaultTableModel(null, titulos); // Se agrega los titulos
+        // Selecciona todos los registros de la tabla Trabajador y filtra por login y password
+        sSQL = "SELECT idEmpleado, nombre, apellidoPaterno, apellidoMaterno, acceso, login, password, estado "
+             + "FROM Empleado WHERE login = '" + login + "' AND password = '" + password + "' AND estado = 'Activo'";
+        
+        try {
+            Statement st = cn.createStatement();  
+            ResultSet rs = st.executeQuery(sSQL); // Ejecuta la instrucción SQL
+            
+            // Navegación por todos los registros recorriendo de uno a uno
+            while (rs.next()) {
+                // Almacena todos los registros obtenidos por la variable rs de la tabla Trabajador 
+                registro[0] = rs.getString("idEmpleado");
+                registro[1] = rs.getString("nombre");
+                registro[2] = rs.getString("apellidoPaterno");
+                registro[3] = rs.getString("apellidoMaterno");
+                registro[4] = rs.getString("acceso");
+                registro[5] = rs.getString("login");
+                registro[6] = rs.getString("password");
+                registro[7] = rs.getString("estado");
+                
+                totalRegistros = totalRegistros + 1; // Aumenta el total de registros en 1
+                
+                modelo.addRow(registro); // Agrega a la variable modelo a manera de fila, todo el registro
+            }
+            
+            return modelo;
+        } catch (SQLException e) {
+            JOptionPane.showConfirmDialog(null, e); // Muestra el error
+            return null;
+        }
+    }
 }

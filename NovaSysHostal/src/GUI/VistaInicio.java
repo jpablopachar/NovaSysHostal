@@ -32,16 +32,21 @@ public class VistaInicio extends javax.swing.JFrame {
     private void initComponents() {
 
         escritorio = new javax.swing.JDesktopPane();
+        lblIdEmpleado = new javax.swing.JLabel();
+        lblNombre = new javax.swing.JLabel();
+        lblApellidoPaterno = new javax.swing.JLabel();
+        lblApellidoMaterno = new javax.swing.JLabel();
+        lblAcceso = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         mnuNovaSysHostal = new javax.swing.JMenu();
-        mnuArchivo = new javax.swing.JMenu();
+        menuArchivo = new javax.swing.JMenu();
         pasteMenuItem = new javax.swing.JMenuItem();
         mnuReservas = new javax.swing.JMenu();
         contentMenuItem = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         mnuConsultas = new javax.swing.JMenu();
-        mnuConfiguraciones = new javax.swing.JMenu();
+        menuConfiguraciones = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         mnuHerramientas = new javax.swing.JMenu();
         mnuAyuda = new javax.swing.JMenu();
@@ -53,12 +58,37 @@ public class VistaInicio extends javax.swing.JFrame {
 
         escritorio.setBackground(new java.awt.Color(255, 241, 218));
 
+        lblIdEmpleado.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        lblIdEmpleado.setText("jLabel1");
+        escritorio.add(lblIdEmpleado);
+        lblIdEmpleado.setBounds(50, 40, 120, 17);
+
+        lblNombre.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        lblNombre.setText("jLabel2");
+        escritorio.add(lblNombre);
+        lblNombre.setBounds(50, 80, 120, 17);
+
+        lblApellidoPaterno.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        lblApellidoPaterno.setText("jLabel3");
+        escritorio.add(lblApellidoPaterno);
+        lblApellidoPaterno.setBounds(50, 120, 120, 17);
+
+        lblApellidoMaterno.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        lblApellidoMaterno.setText("jLabel4");
+        escritorio.add(lblApellidoMaterno);
+        lblApellidoMaterno.setBounds(50, 160, 120, 17);
+
+        lblAcceso.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        lblAcceso.setText("jLabel5");
+        escritorio.add(lblAcceso);
+        lblAcceso.setBounds(50, 200, 120, 17);
+
         mnuNovaSysHostal.setMnemonic('f');
         mnuNovaSysHostal.setText("NovaSysHostal");
         menuBar.add(mnuNovaSysHostal);
 
-        mnuArchivo.setMnemonic('e');
-        mnuArchivo.setText("Archivo");
+        menuArchivo.setMnemonic('e');
+        menuArchivo.setText("Archivo");
 
         pasteMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/acercaDE.png"))); // NOI18N
         pasteMenuItem.setMnemonic('p');
@@ -68,9 +98,9 @@ public class VistaInicio extends javax.swing.JFrame {
                 pasteMenuItemActionPerformed(evt);
             }
         });
-        mnuArchivo.add(pasteMenuItem);
+        menuArchivo.add(pasteMenuItem);
 
-        menuBar.add(mnuArchivo);
+        menuBar.add(menuArchivo);
 
         mnuReservas.setMnemonic('h');
         mnuReservas.setText("Reservas");
@@ -98,7 +128,7 @@ public class VistaInicio extends javax.swing.JFrame {
         mnuConsultas.setText("Consultas");
         menuBar.add(mnuConsultas);
 
-        mnuConfiguraciones.setText("Configuraciones");
+        menuConfiguraciones.setText("Configuraciones");
 
         jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/usuarios.png"))); // NOI18N
         jMenuItem2.setText("Usuarios y Accesos");
@@ -107,9 +137,9 @@ public class VistaInicio extends javax.swing.JFrame {
                 jMenuItem2ActionPerformed(evt);
             }
         });
-        mnuConfiguraciones.add(jMenuItem2);
+        menuConfiguraciones.add(jMenuItem2);
 
-        menuBar.add(mnuConfiguraciones);
+        menuBar.add(menuConfiguraciones);
 
         mnuHerramientas.setText("Herramientas");
         menuBar.add(mnuHerramientas);
@@ -215,10 +245,15 @@ public class VistaInicio extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    public static javax.swing.JLabel lblAcceso;
+    public static javax.swing.JLabel lblApellidoMaterno;
+    public static javax.swing.JLabel lblApellidoPaterno;
+    public static javax.swing.JLabel lblIdEmpleado;
+    public static javax.swing.JLabel lblNombre;
+    public static javax.swing.JMenu menuArchivo;
     private javax.swing.JMenuBar menuBar;
-    private javax.swing.JMenu mnuArchivo;
+    public static javax.swing.JMenu menuConfiguraciones;
     private javax.swing.JMenu mnuAyuda;
-    private javax.swing.JMenu mnuConfiguraciones;
     private javax.swing.JMenu mnuConsultas;
     private javax.swing.JMenu mnuHerramientas;
     private javax.swing.JMenu mnuNovaSysHostal;
