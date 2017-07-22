@@ -1,79 +1,37 @@
 package Logica;
 
 import Clases.Empleado;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 /*
     Author: Juan Pablo Pachar.
     Fecha: 3 de julio del 2017
-    Modulo: Permite mostrar, insertar, editar, eliminar un empleado
+    Modulo: Permite consultar, insertar, editar, eliminar un empleado
 */
 
 public class LogicaEmpleado {
-    private Conexion mysql = new Conexion(); // Instancia la clase Conexion
-    private Connection cn = mysql.conectar(); // Llama a la función conectar
     private String sSQL = ""; // Almacena el codigo SQL
-    public int totalRegistros; // Cuenta el total de registros
+    
+    LogicaConexion logicaConexion = new LogicaConexion();
     
     // Muestra los registros de la BD de la tabla Empleado
-    public DefaultTableModel mostrar(String buscar) {
-        DefaultTableModel modelo;
-        
-        // Arreglo que hace una referencia de los titulos de las columnas
-        // de la tabla
-        String[] titulos = {"id", "Nombre", "Apellido paterno",
-            "Apellido materno", "Tipo de documento", "Número de documento",
-            "Dirección", "Teléfono", "Email", "Sueldo", "Acceso", "Login",
-            "Password", "Estado"};
-        
-        // Arreglo que almacena los registros de cada titulo
-        String[] registro = new String[14];
-        totalRegistros = 0; // Se inicializa en 0
-        // Se agrega los titulos de la tabla
-        modelo = new DefaultTableModel(null, titulos);
-        
-        // Selecciona los registros de la tabla Empleado y filtra por
-        // numDocumento según el parámetro a buscar de forma descendente
-        sSQL = "select * from Empleado where numDocumento like '%" + buscar +
-               "%' order by idEmpleado desc";
-        
+    public ResultSet consultar(String buscar) {
         try {
-            Statement st = cn.createStatement();
+            // Crea un puente entre la conexión
+            Statement st = logicaConexion.abrirConexion().createStatement();
+            
+            // Selecciona los registros de la tabla Empleado y filtra por
+            // numDocumento según el parámetro a buscar de forma descendente
+            sSQL = "select * from Empleado where numDocumento like '%" + buscar +
+                   "%' order by idEmpleado desc";
+            
             ResultSet rs = st.executeQuery(sSQL); // Ejecuta la instrucción SQL
             
-            // Recorre los registros de la tabla Empleado uno por uno
-            while (rs.next()) {
-                // Se almacenan los registros obtenidos por la variable rs
-                // de la tabla Empleado
-                registro[0] = rs.getString("idEmpleado");
-                registro[1] = rs.getString("nombre");
-                registro[2] = rs.getString("apellidoPaterno");
-                registro[3] = rs.getString("apellidoMaterno");
-                registro[4] = rs.getString("tipoDocumento");
-                registro[5] = rs.getString("numDocumento");
-                registro[6] = rs.getString("direccion");
-                registro[7] = rs.getString("telefono");
-                registro[8] = rs.getString("email");
-                registro[9] = rs.getString("sueldo");
-                registro[10] = rs.getString("acceso");
-                registro[11] = rs.getString("login");
-                registro[12] = rs.getString("password");
-                registro[13] = rs.getString("estado");
-                
-                // Aumenta el total de registros en 1
-                totalRegistros = totalRegistros + 1;
-                
-                // Se agrega al modelo a manera de fila, todos los registros
-                modelo.addRow(registro);
-            }
-            
-            return modelo;
+            return rs;
         } catch (SQLException e) {
             JOptionPane.showConfirmDialog(null, e); // Muestra el error
             return null;
@@ -91,7 +49,7 @@ public class LogicaEmpleado {
         
         try {
             // Contiene la cadena SQL para insertar un registro
-            PreparedStatement pst = cn.prepareStatement(sSQL);
+            PreparedStatement pst = logicaConexion.abrirConexion().prepareStatement(sSQL);
             
             // Envía uno a uno los valores a la instrucción SQL
             pst.setString(1, empleado.getNombre());
@@ -133,7 +91,7 @@ public class LogicaEmpleado {
         
         try {
             // Contiene la cadena SQL para modificar un registro
-            PreparedStatement pst = cn.prepareStatement(sSQL);
+            PreparedStatement pst = logicaConexion.abrirConexion().prepareStatement(sSQL);
             
             // Envía uno a uno los valores a la instrucción SQL
             pst.setString(1, empleado.getNombre());
@@ -173,7 +131,7 @@ public class LogicaEmpleado {
         
         try {
             // Contiene la cadena SQL para modificar un registro
-            PreparedStatement pst = cn.prepareStatement(sSQL);
+            PreparedStatement pst = logicaConexion.abrirConexion().prepareStatement(sSQL);
             
             // Envía uno a uno los valores a la instrucción SQL
             pst.setInt(1, empleado.getIdEmpleado());
@@ -194,42 +152,17 @@ public class LogicaEmpleado {
     }
     
     // Valida el ingreso del Empleado segun el cargo que ocupe
-    public DefaultTableModel login(String login, String password) {
-        DefaultTableModel modelo;
-        
-        // Vector que guarda una referencia de los titulos de la columna
-        String[] titulos = {"Id", "Nombre", "Apellido Paterno", 
-            "Apellido Materno", "Acceso", "Login", "Password", "Estado"};
-        // Vector que almacena los registros de cada titulo
-        String[] registro = new String[8];
-        totalRegistros = 0;
-        modelo = new DefaultTableModel(null, titulos); // Se agrega los titulos
-        // Selecciona todos los registros de la tabla Trabajador y filtra por login y password
-        sSQL = "SELECT idEmpleado, nombre, apellidoPaterno, apellidoMaterno, acceso, login, password, estado "
-             + "FROM Empleado WHERE login = '" + login + "' AND password = '" + password + "' AND estado = 'Activo'";
-        
+    public ResultSet login(String login, String password) {
         try {
-            Statement st = cn.createStatement();  
+            // Crea un puente entre la conexión
+            Statement st = logicaConexion.abrirConexion().createStatement();
+            // Selecciona todos los registros de la tabla Trabajador y filtra por login y password
+            sSQL = "SELECT idEmpleado, nombre, apellidoPaterno, apellidoMaterno, acceso, login, password, estado "
+                 + "FROM Empleado WHERE login = '" + login + "' AND password = '" + password + "' AND estado = 'Activo'";
+            
             ResultSet rs = st.executeQuery(sSQL); // Ejecuta la instrucción SQL
             
-            // Navegación por todos los registros recorriendo de uno a uno
-            while (rs.next()) {
-                // Almacena todos los registros obtenidos por la variable rs de la tabla Trabajador 
-                registro[0] = rs.getString("idEmpleado");
-                registro[1] = rs.getString("nombre");
-                registro[2] = rs.getString("apellidoPaterno");
-                registro[3] = rs.getString("apellidoMaterno");
-                registro[4] = rs.getString("acceso");
-                registro[5] = rs.getString("login");
-                registro[6] = rs.getString("password");
-                registro[7] = rs.getString("estado");
-                
-                totalRegistros = totalRegistros + 1; // Aumenta el total de registros en 1
-                
-                modelo.addRow(registro); // Agrega a la variable modelo a manera de fila, todo el registro
-            }
-            
-            return modelo;
+            return rs; 
         } catch (SQLException e) {
             JOptionPane.showConfirmDialog(null, e); // Muestra el error
             return null;

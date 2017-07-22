@@ -1,74 +1,38 @@
 package Logica;
 
 import Clases.Cliente;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 /*
     Author: Juan Pablo Pachar.
     Fecha: 7 de julio del 2017
-    Modulo: Permite mostrar, insertar, editar, eliminar un cliente
+    Modulo: Permite consultar, insertar, editar, eliminar un cliente
 */
 
 public class LogicaCliente {
-    private Conexion mysql = new Conexion(); // Instancia la clase Conexion
-    private Connection cn = mysql.conectar(); // Llama a la función conectar
     private String sSQL = ""; // Almacena el codigo SQL
-    public int totalRegistros; // Cuenta el total de registros
     
-    // Muestra los regsitros de la BD de la tabla Cliente
-    public DefaultTableModel mostrar(String buscar) {
-        DefaultTableModel modelo;
-        
-        // Arreglo que hace una referencia de los titulos de las columnas
-        // de la tabla
-        String[] titulos = {"id", "Nombre", "Apellido paterno",
-            "Apellido materno", "Tipo de documento", "Número de documento",
-            "Dirección", "Teléfono", "Email", "Código del cliente"};
-        
-        // Arreglo que almacena los registros de cada titulo
-        String[] registro = new String[10];
-        totalRegistros = 0;
-        // Se agrega los titulos de la tabla
-        modelo = new DefaultTableModel(null, titulos);
-        
-        // Selecciona los registros de la tabla Cliente y filtra por
-        // idCliente según el parámetro a buscar de forma descendente
-        sSQL = "select * from Cliente where numDocumento like '%" + buscar +
-               "%' order by idCliente desc";
+    LogicaConexion logicaConexion = new LogicaConexion();
+    
+    // Muestra los registros de la BD de la tabla Cliente
+    public ResultSet consultar(String buscar) {
         
         try {
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sSQL); // Ejecuta la instrucción SQL
+            // Crea un puente entre la conexión
+            Statement st = logicaConexion.abrirConexion().createStatement();
             
-            // Recorre los registros de la tabla Cliente uno por uno
-            while (rs.next()) {
-                // Se almacenan los registros obtenidos por la variable rs
-                // de la tabla Cliente
-                registro[0] = rs.getString("idCliente");
-                registro[1] = rs.getString("nombre");
-                registro[2] = rs.getString("apellidoPaterno");
-                registro[3] = rs.getString("apellidoMaterno");
-                registro[4] = rs.getString("tipoDocumento");
-                registro[5] = rs.getString("numDocumento");
-                registro[6] = rs.getString("direccion");
-                registro[7] = rs.getString("telefono");
-                registro[8] = rs.getString("email");
-                registro[9] = rs.getString("codigoCliente");
-                
-                // Aumenta el total de registros en 1
-                totalRegistros = totalRegistros + 1;
-                
-                // Se agrega al modelo a manera de fila, todos los registros
-                modelo.addRow(registro);
-            }
+            // Selecciona los registros de la tabla Cliente y filtra por
+            // idCliente según el parámetro a buscar de forma descendente
+            sSQL = "SELECT * FROM Cliente WHERE numDocumento LIKE '%" + buscar +
+               "%' ORDER BY idCliente DESC";
             
-            return modelo;
+            ResultSet rs = st.executeQuery(sSQL); // Guarda la instrucción SQL
+            
+            return rs;
         } catch (SQLException e) {
             JOptionPane.showConfirmDialog(null, e); // Muestra el error
             return null;
@@ -86,7 +50,7 @@ public class LogicaCliente {
         
         try {
             // Contiene la cadena SQL para insertar un registro
-            PreparedStatement pst = cn.prepareStatement(sSQL);
+            PreparedStatement pst = logicaConexion.abrirConexion().prepareStatement(sSQL);
             
             // Envía uno a uno los valores a la instrucción SQL
             pst.setString(1, cliente.getNombre());
@@ -123,8 +87,8 @@ public class LogicaCliente {
                "where idCliente=?";
         
         try {
-            // Contiene la cadena SQL para modificar un registro
-            PreparedStatement pst = cn.prepareStatement(sSQL);
+            // Contiene la cadena SQL para insertar un registro
+            PreparedStatement pst = logicaConexion.abrirConexion().prepareStatement(sSQL);
             
             // Envía uno a uno los valores a la instrucción SQL
             pst.setString(1, cliente.getNombre());
@@ -159,8 +123,8 @@ public class LogicaCliente {
         sSQL = "delete from Cliente where idCliente=?";
         
         try {
-            // Contiene la cadena SQL para modificar un registro
-            PreparedStatement pst = cn.prepareStatement(sSQL);
+            // Contiene la cadena SQL para insertar un registro
+            PreparedStatement pst = logicaConexion.abrirConexion().prepareStatement(sSQL);
             
             // Envía uno a uno los valores a la instrucción SQL
             pst.setInt(1, cliente.getIdCliente());

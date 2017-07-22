@@ -1,70 +1,37 @@
 package Logica;
 
 import Clases.Servicio;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 /*
     Author: Juan Pablo Pachar.
     Fecha: 16 de julio del 2017
-    Modulo: Permite mostrar, insertar, editar, eliminar un Servicio
+    Modulo: Permite consultar, insertar, editar, eliminar un Servicio
 */
 
 public class LogicaServicio {
-    private Conexion mysql = new Conexion(); // Instancia de la clase conexión
-    private Connection cn = mysql.conectar(); // Llama a la función conectar 
     private String sSQL = ""; // Variable que almacena la cadena de conexión SQL
-    public int totalRegistros; // Variable que cuenta el total de registros
+    
+    LogicaConexion logicaConexion = new LogicaConexion();
     
     // Muestra los registros de la base de datos de la tabla Producto
-    public DefaultTableModel mostrar(String buscar) {
-        DefaultTableModel modelo;
-        
-        // Vector que guarda una referencia de los titulos de la columna
-        String[] titulos = {"Id", "Nombre servicio", "Cantidad", "Descripción",
-            "Características", "Precio", "Estado"};
-        // Vector que almacena los registros de cada titulo
-        String[] registro = new String[7];
-        totalRegistros = 0;
-        modelo = new DefaultTableModel(null, titulos); // Se agrega los titulos
-        // Selecciona todos los registros de la tabla Servicio y filtra por nombre 
-        // segun el parametro a buscar de forma descendente
-        sSQL = "SELECT * FROM Servicio WHERE nombre LIKE '%" + buscar + 
-               "%' ORDER BY idServicio DESC";
-        
+    public ResultSet consultar(String buscar) {
         try {
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sSQL); // Ejecuta la instrucción SQL
-            
-            // Navegación por todos los registros recorriendo de uno a uno
-            while (rs.next()) {
-                // Almacena todos los registros obtenidos por la variable rs de
-                // la tabla Servicio 
-                registro[0] = rs.getString("idServicio");
-                registro[1] = rs.getString("nombre");
-                registro[2] = rs.getString("cantidad");
-                registro[3] = rs.getString("descripcion");
-                registro[4] = rs.getString("caracteristicas");
-                registro[5] = rs.getString("precio");
-                registro[6] = rs.getString("estado");
-                
-                // Aumenta el total de registros en 1
-                totalRegistros = totalRegistros + 1; 
-                
-                // Agrega a la variable modelo a manera de fila, todo el registro
-                modelo.addRow(registro); 
-            }
-            
-            return modelo;
+            // Crea un puente entre la conexión
+            Statement st = logicaConexion.abrirConexion().createStatement();
+            // Selecciona todos los registros de la tabla Servicio y filtra por nombre 
+            sSQL = "SELECT * FROM Servicio WHERE nombre like '%" + buscar + "%' order by idServicio desc";
+            ResultSet rs = st.executeQuery(sSQL); // Guarda la instrucción SQL
+
+            return rs;
         } catch (SQLException e) {
             JOptionPane.showConfirmDialog(null, e); // Muestra el error
             return null;
-        }
+        }   
     }
     
     // Inserta un registro en la tabla Servicio
@@ -76,8 +43,8 @@ public class LogicaServicio {
         
         try {
             // Contiene la cadena SQL para insertar un registro
-            PreparedStatement pst = cn.prepareStatement(sSQL);
-            
+            PreparedStatement pst = logicaConexion.abrirConexion().prepareStatement(sSQL);
+
             // Envia uno a uno todos los valores a la instrucción SQL
             pst.setString(1, servicio.getNombre());
             pst.setDouble(2, servicio.getCantidad());
@@ -101,6 +68,7 @@ public class LogicaServicio {
         }
     }
     
+    
     // Edita un registro en la tabla Servicio
     public boolean editar(Servicio servicio) {
         // Modifica de la tabla Servicio enviando una variable
@@ -109,7 +77,7 @@ public class LogicaServicio {
         
         try {
             // Contiene la cadena SQL para editar un registro
-            PreparedStatement pst = cn.prepareStatement(sSQL);
+            PreparedStatement pst = logicaConexion.abrirConexion().prepareStatement(sSQL);
             
             // Envia uno a uno todos los valores a la instrucción SQL
             pst.setString(1, servicio.getNombre());
@@ -141,7 +109,7 @@ public class LogicaServicio {
         
         try {
             // Contiene la cadena SQL para eliminar un registro
-            PreparedStatement pst = cn.prepareStatement(sSQL);
+            PreparedStatement pst = logicaConexion.abrirConexion().prepareStatement(sSQL);
             
             // Envia uno a uno todos los valores a la instrucción SQL
             pst.setInt(1, servicio.getIdServicio());

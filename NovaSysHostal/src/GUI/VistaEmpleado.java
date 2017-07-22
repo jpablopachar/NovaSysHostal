@@ -6,6 +6,7 @@
 package GUI;
 
 import Clases.Empleado;
+import Database.DBEmpleado;
 import Logica.LogicaEmpleado;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -16,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
     Modulo: Interfaz de usuario de la ventana Empleado
 */
 
-public class VistaEmpleado extends javax.swing.JInternalFrame {
+public class VistaEmpleado extends javax.swing.JFrame {
 
     /**
      * Creates new form VistaServicio
@@ -111,14 +112,14 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
             DefaultTableModel modelo;
             
             // Instancia de la clase LogicaEmpleado
-            LogicaEmpleado logicaEmpleado = new LogicaEmpleado();
-            // Almacena el resultado del metodo mostrar de la clase LogicaEmpleado
-            modelo = logicaEmpleado.mostrar(buscar);
+            DBEmpleado dbEmpleado = new DBEmpleado();
+            // Almacena el resultado del metodo consultar de la clase LogicaEmpleado
+            modelo = dbEmpleado.consultar(buscar);
             
             tablaListado.setModel(modelo);
             ocultarColumna();
             totalRegistros.setText("Total Registros: " +
-                Integer.toString(logicaEmpleado.totalRegistros));
+                Integer.toString(dbEmpleado.totalRegistros));
         } catch (Exception e) {
             JOptionPane.showConfirmDialog(rootPane, e);
         }
@@ -174,10 +175,7 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         tablaListado = new javax.swing.JTable();
         totalRegistros = new javax.swing.JLabel();
 
-        setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setIconifiable(true);
-        setMaximizable(true);
 
         jPanel2.setBackground(new java.awt.Color(255, 238, 88));
 

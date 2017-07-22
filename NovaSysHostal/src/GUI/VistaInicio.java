@@ -108,6 +108,11 @@ public class VistaInicio extends javax.swing.JFrame {
         contentMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/reserva.png"))); // NOI18N
         contentMenuItem.setMnemonic('c');
         contentMenuItem.setText("Reservas");
+        contentMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contentMenuItemActionPerformed(evt);
+            }
+        });
         mnuReservas.add(contentMenuItem);
 
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/clientes.png"))); // NOI18N
@@ -157,6 +162,11 @@ public class VistaInicio extends javax.swing.JFrame {
         menuBar.add(mnuAyuda);
 
         mnuSalir.setText("Salir");
+        mnuSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mnuSalirMouseClicked(evt);
+            }
+        });
         menuBar.add(mnuSalir);
 
         setJMenuBar(menuBar);
@@ -201,6 +211,24 @@ public class VistaInicio extends javax.swing.JFrame {
         vistaEmpleado.toFront();
         vistaEmpleado.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void contentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentMenuItemActionPerformed
+        // TODO add your handling code here:
+        VistaReserva vistaReserva = new VistaReserva();
+        
+        escritorio.add(vistaReserva); // Agrego el formulario al escritorio
+        vistaReserva.toFront(); // Aparecer delante de todos los formularios
+        vistaReserva.setVisible(true); // Que sea visible
+        VistaReserva.txtIdEmpleado.setText(lblIdEmpleado.getText()); // Recibe el idEmpleado que ha iniciado sesión
+        // Recibe el nombre y el apellidoPaterno del usuario que ha iniciado sesión
+        VistaReserva.txtEmpleado.setText(lblNombre.getText() + " " + lblApellidoPaterno.getText());
+        VistaReserva.idUsuario = Integer.parseInt(lblIdEmpleado.getText()); // Recibe el idEmpleado que ha hecho la reserva
+    }//GEN-LAST:event_contentMenuItemActionPerformed
+
+    private void mnuSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuSalirMouseClicked
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_mnuSalirMouseClicked
 
     /**
      * @param args the command line arguments

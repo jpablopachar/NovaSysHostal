@@ -6,6 +6,7 @@
 package GUI;
 
 import Clases.Empleado;
+import Database.DBEmpleado;
 import Logica.LogicaEmpleado;
 import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
@@ -178,7 +179,7 @@ public class VistaUsuarioLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             DefaultTableModel modelo;
-            LogicaEmpleado logicaEmpleado = new LogicaEmpleado();
+            DBEmpleado dbEmpleado = new DBEmpleado();
             Empleado empleado = new Empleado();
             
             // Envío el texto que tengo en txtUsuario y txtPassword
@@ -186,13 +187,13 @@ public class VistaUsuarioLogin extends javax.swing.JFrame {
             empleado.setPassword(txtPassword.getText());
             
             // Envío valores al modelo
-            modelo = logicaEmpleado.login(empleado.getLogin(), empleado.getPassword());
+            modelo = dbEmpleado.login(empleado.getLogin(), empleado.getPassword());
             
             // Envía el modelo a la tabla listado para obtener los datos del usuario
             tablaListado.setModel(modelo);
             
             // Determina si el usuario está registrado
-            if (logicaEmpleado.totalRegistros > 0) {
+            if (dbEmpleado.totalRegistros > 0) {
                 // El usuario existe
                 this.dispose(); // Cierra la VistaUsuarioLogin
                 VistaInicio vistaInicio = new VistaInicio(); // Invoca a VistaInicio

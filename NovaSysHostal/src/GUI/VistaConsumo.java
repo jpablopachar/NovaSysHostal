@@ -1,28 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GUI;
 
+import Clases.Consumo;
 import Clases.Servicio;
+import Database.DBConsumo;
 import Database.DBServicio;
+import Logica.LogicaConsumo;
 import Logica.LogicaServicio;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author jppachar
- */
-public class VistaServicio extends javax.swing.JFrame {
+/*
+    Author: Juan Pablo Pachar.
+    Fecha: 22 de julio del 2017
+    Modulo: Interfaz de usuario de la ventana Consumo
+*/
 
-    /**
-     * Creates new form SegundaVista
-     */
-    public VistaServicio() {
+public class VistaConsumo extends javax.swing.JFrame {
+    public static String idReserva; // Almacena el idReserva de la tabla Consumo
+    public static String cliente; // Almacena el nombre del cliente de la tabla Consumo
+
+    public VistaConsumo() {
         initComponents();
-        mostrar("");
+        mostrar(idReserva);
+        txtCliente.setText(cliente);
+        txtIdReserva.setText(idReserva);
         inHabilitar();
     }
     
@@ -35,50 +36,56 @@ public class VistaServicio extends javax.swing.JFrame {
         tablaListado.getColumnModel().getColumn(0).setMaxWidth(0);
         tablaListado.getColumnModel().getColumn(0).setMinWidth(0);
         tablaListado.getColumnModel().getColumn(0).setPreferredWidth(0);
+        tablaListado.getColumnModel().getColumn(1).setMaxWidth(0);
+        tablaListado.getColumnModel().getColumn(1).setMinWidth(0);
+        tablaListado.getColumnModel().getColumn(1).setPreferredWidth(0);
+        tablaListado.getColumnModel().getColumn(2).setMaxWidth(0);
+        tablaListado.getColumnModel().getColumn(2).setMinWidth(0);
+        tablaListado.getColumnModel().getColumn(2).setPreferredWidth(0);
     }
     
     // Procedimiento para deshabilitar todas las cajas de textos y botones
     void inHabilitar() {
+        txtIdConsumo.setVisible(false);
+        txtIdReserva.setVisible(false);
+        txtCliente.setEnabled(false);
         txtIdServicio.setVisible(false);
-        txtNombre.setEnabled(false);
+        txtServicio.setEnabled(false);
         txtCantidad.setEnabled(false);
-        txtDescripcion.setEnabled(false);
-        txtCaracteristicas.setEnabled(false);
-        txtPrecio.setEnabled(false);
+        txtPrecioVenta.setEnabled(false);
         cboEstado.setEnabled(false);
         
         btnGuardar.setEnabled(false);
         btnCancelar.setEnabled(false);
         btnEliminar.setEnabled(false);
         
+        txtIdConsumo.setText("");
         txtIdServicio.setText("");
-        txtNombre.setText("");
+        txtServicio.setText("");
         txtCantidad.setText("");
-        txtDescripcion.setText("");
-        txtCaracteristicas.setText("");
-        txtPrecio.setText("");
+        txtPrecioVenta.setText("");
     }
     
     // Procedimiento para habilitar todas las cajas de textos y botones
     void habilitar() {
+        txtIdConsumo.setVisible(false);
+        txtIdReserva.setVisible(false);
+        txtCliente.setEnabled(true);
         txtIdServicio.setVisible(false);
-        txtNombre.setEnabled(true);
+        txtServicio.setEnabled(true);
         txtCantidad.setEnabled(true);
-        txtDescripcion.setEnabled(true);
-        txtCaracteristicas.setEnabled(true);
-        txtPrecio.setEnabled(true);
+        txtPrecioVenta.setEnabled(true);
         cboEstado.setEnabled(true);
         
         btnGuardar.setEnabled(true);
         btnCancelar.setEnabled(true);
         btnEliminar.setEnabled(true);
         
+        txtIdConsumo.setText("");
         txtIdServicio.setText("");
-        txtNombre.setText("");
+        txtServicio.setText("");
         txtCantidad.setText("");
-        txtDescripcion.setText("");
-        txtCaracteristicas.setText("");
-        txtPrecio.setText("");
+        txtPrecioVenta.setText("");
     }
     
     // Procedimiento para que realizar la busqueda
@@ -88,13 +95,14 @@ public class VistaServicio extends javax.swing.JFrame {
             
             // Instancia de la clase LogicaProducto
             //LogicaServicio logicaServicio = new LogicaServicio();
-            DBServicio dbSErvicio = new DBServicio();
+            DBConsumo dbConsumo = new DBConsumo();
             // Almacena el resultado del metodo consultar de la clase LogicaProducto
-            modelo = dbSErvicio.consultar(buscar);
+            modelo = dbConsumo.consultar(buscar);
             
             tablaListado.setModel(modelo);
             ocultarColumna();
-            totalRegistros.setText("Total Registros: " + Integer.toString(dbSErvicio.totalRegistros));
+            totalRegistros.setText("Total Registros: " + Integer.toString(dbConsumo.totalRegistros));
+            totalConsumos.setText("Consumo total $ " + dbConsumo.totalConsumo);
         } catch (Exception e) {
             JOptionPane.showConfirmDialog(rootPane, e);
         }
@@ -112,61 +120,55 @@ public class VistaServicio extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
-        txtCantidad = new javax.swing.JTextField();
+        txtIdReserva = new javax.swing.JTextField();
+        txtIdServicio = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        txtPrecio = new javax.swing.JTextField();
+        txtPrecioVenta = new javax.swing.JTextField();
         cboEstado = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         btnNuevo = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        txtIdServicio = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txtDescripcion = new javax.swing.JTextArea();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        txtCaracteristicas = new javax.swing.JTextArea();
+        txtIdConsumo = new javax.swing.JTextField();
+        txtCliente = new javax.swing.JTextField();
+        txtServicio = new javax.swing.JTextField();
+        btnBuscaServicio = new javax.swing.JButton();
+        txtCantidad = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        txtBuscar = new javax.swing.JTextField();
-        btnBuscar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaListado = new javax.swing.JTable();
         totalRegistros = new javax.swing.JLabel();
+        totalConsumos = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel2.setBackground(new java.awt.Color(0, 184, 212));
+        jPanel2.setBackground(new java.awt.Color(130, 119, 23));
 
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Servicio");
+        jLabel1.setText("Consumos");
 
         jLabel2.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Nombre:");
+        jLabel2.setText("Reserva:");
 
         jLabel3.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Cantidad:");
-
-        jLabel4.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Descripción:");
+        jLabel3.setText("Servicio:");
 
         jLabel5.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Características:");
+        jLabel5.setText("Cantidad:");
 
         jLabel6.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Precio:");
+        jLabel6.setText("Precio venta:");
 
-        cboEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Alquilado", "Disponible" }));
+        cboEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aceptado", "Cancelado" }));
 
         jLabel7.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
@@ -196,63 +198,61 @@ public class VistaServicio extends javax.swing.JFrame {
             }
         });
 
-        txtDescripcion.setColumns(20);
-        txtDescripcion.setRows(5);
-        jScrollPane2.setViewportView(txtDescripcion);
-
-        txtCaracteristicas.setColumns(20);
-        txtCaracteristicas.setRows(5);
-        jScrollPane3.setViewportView(txtCaracteristicas);
+        btnBuscaServicio.setText("...");
+        btnBuscaServicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscaServicioActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtIdServicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(337, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel6)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel5)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3))
-                        .addContainerGap())
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(63, 63, 63)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNombre)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtIdConsumo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel7))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(txtIdServicio, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtServicio, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtPrecioVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnBuscaServicio))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(63, 63, 63)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtIdReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(99, 99, 99)
                 .addComponent(btnNuevo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnGuardar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnCancelar)
-                .addGap(59, 59, 59))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -260,26 +260,25 @@ public class VistaServicio extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(txtIdServicio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtIdConsumo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(txtIdReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtIdServicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtServicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscaServicio))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPrecioVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -287,20 +286,13 @@ public class VistaServicio extends javax.swing.JFrame {
                     .addComponent(jLabel7))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGuardar)
                     .addComponent(btnNuevo)
+                    .addComponent(btnGuardar)
                     .addComponent(btnCancelar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1.setBackground(new java.awt.Color(0, 184, 212));
-
-        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/buscar.png"))); // NOI18N
-        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
-            }
-        });
+        jPanel1.setBackground(new java.awt.Color(130, 119, 23));
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/eliminar.png"))); // NOI18N
         btnEliminar.setText("Eliminar");
@@ -339,6 +331,9 @@ public class VistaServicio extends javax.swing.JFrame {
         totalRegistros.setForeground(new java.awt.Color(255, 255, 255));
         totalRegistros.setText("Registros:");
 
+        totalConsumos.setForeground(new java.awt.Color(255, 255, 255));
+        totalConsumos.setText("Consumo total:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -346,35 +341,34 @@ public class VistaServicio extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(totalRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBuscar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnEliminar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSalir)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(totalConsumos, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(totalRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnEliminar)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnSalir)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnEliminar)
-                        .addComponent(btnSalir))
-                    .addComponent(btnBuscar)
-                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEliminar)
+                    .addComponent(btnSalir))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addGap(2, 2, 2)
-                .addComponent(totalRegistros)
-                .addGap(39, 39, 39))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(totalRegistros)
+                    .addComponent(totalConsumos))
+                .addGap(29, 29, 29))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -415,75 +409,60 @@ public class VistaServicio extends javax.swing.JFrame {
 
         // Valida que al presionar guardar las cajas de texto tengan contenido
 
-        // Valida el nombre del servicio
-        if (txtNombre.getText().length() == 0) {
-            JOptionPane.showConfirmDialog(rootPane, "Debes ingresar el nombre del servicio");
+        // Valida si el cliente ha seleccionado un producto
+        if (txtIdServicio.getText().length() == 0) {
+            JOptionPane.showConfirmDialog(rootPane, "Debes seleccionar un producto");
             // Enviamos el enfoque a la caja de texto correspondiente
-            txtNombre.requestFocus();
+            btnBuscaServicio.requestFocus();
             return;
         }
 
-        // Valida la cantidad del servicio disponible
+        // Valida la cantidad de consumo
         if (txtCantidad.getText().length() == 0) {
-            JOptionPane.showConfirmDialog(rootPane, "Debes ingresar la cantidad disponible");
-            // Enviamos el enfoque a la caja de texto correspondiente
+            JOptionPane.showConfirmDialog(rootPane, "Debes ingresar una cantidad de consumo");
             txtCantidad.requestFocus();
             return;
         }
 
-        // Valida la descripcion del servicio
-        if (txtDescripcion.getText().length() == 0) {
-            JOptionPane.showConfirmDialog(rootPane, "Debes ingresar una descripción del servicio");
-            txtDescripcion.requestFocus();
-            return;
-        }
-
-        // Valida las caracteristicas del servicio
-        if (txtCaracteristicas.getText().length() == 0) {
-            JOptionPane.showConfirmDialog(rootPane, "Debes ingresar las características del servicio");
-            txtCaracteristicas.requestFocus();
-            return;
-        }
-
-        // Valida el precio del servicio
-        if (txtPrecio.getText().length() == 0) {
-            JOptionPane.showConfirmDialog(rootPane, "Debes ingresar el precio del servicio");
-            txtPrecio.requestFocus();
+        // Valida el precio de venta del producto
+        if (txtPrecioVenta.getText().length() == 0) {
+            JOptionPane.showConfirmDialog(rootPane, "Debes ingresar el precio de venta del producto");
+            txtPrecioVenta.requestFocus();
             return;
         }
 
         // Instanciamos la clase y las funciones del servicio
-        Servicio servicio = new Servicio();
-        LogicaServicio logicaServicio = new LogicaServicio();
+        Consumo consumo = new Consumo();
+        LogicaConsumo logicaConsumo = new LogicaConsumo();
 
         // Enviamos los datos hacia los metodos set de la clase Servicio
-        servicio.setNombre(txtNombre.getText());
-        servicio.setCantidad(Double.parseDouble(txtCantidad.getText()));
-        servicio.setDescripcion(txtDescripcion.getText());
-        servicio.setCaracteristicas(txtCaracteristicas.getText());
-        servicio.setPrecio(Double.parseDouble(txtPrecio.getText()));
+        consumo.setIdReserva(Integer.parseInt(txtIdReserva.getText()));
+        consumo.setIdServicio(Integer.parseInt(txtIdServicio.getText()));
+        consumo.setCantidad(Double.parseDouble(txtCantidad.getText()));
+        consumo.setPrecioVenta(Double.parseDouble(txtPrecioVenta.getText()));
 
         // comboBox Unidad de medida
         int seleccionado = cboEstado.getSelectedIndex();
-        servicio.setEstado((String)cboEstado.getItemAt(seleccionado));
+        consumo.setEstado((String)cboEstado.getItemAt(seleccionado));
 
         // Acción para guardar
         if (accion.equals("guardar")) {
-            if (logicaServicio.insertar(servicio)) {
-                JOptionPane.showMessageDialog(rootPane, "El servicio fue registrado correctamente");
-                mostrar(""); // Muestra todos los registros
+            if (logicaConsumo.insertar(consumo)) {
+                JOptionPane.showMessageDialog(rootPane, "El consumo " + txtServicio.getText() +
+                    " del cliente " + txtCliente.getText() + " se registró correctamente");
+                mostrar(idReserva); // Muestra solo el consumo de la reserva
                 inHabilitar();
-                
             }
-        } /*else if (accion.equals("editar")) { // Acción para Editar
-            servicio.setIdServicio(Integer.parseInt(txtIdServicio.getText()));
+        } else if (accion.equals("editar")) { // Acción para Editar
+            consumo.setIdConsumo(Integer.parseInt(txtIdConsumo.getText()));
 
-            if (logicaServicio.editar(servicio)) {
-                JOptionPane.showMessageDialog(rootPane, "El servicio fue editado correctamente");
-                mostrar(""); // Muestra todos los registros
+            if (logicaConsumo.editar(consumo)) {
+                JOptionPane.showMessageDialog(rootPane, "El consumo del cliente " +
+                    txtCliente.getText() + " fue editado correctamente");
+                mostrar(idReserva); // Muestra solo el consumo de la reserva
                 inHabilitar();
             }
-        }*/
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -491,28 +470,21 @@ public class VistaServicio extends javax.swing.JFrame {
         inHabilitar();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
-
-        // Muestra lo que ingrese en txtBuscar al presionar el botón Guardar
-        mostrar(txtBuscar.getText());
-    }//GEN-LAST:event_btnBuscarActionPerformed
-
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
 
-        // Evalua que mi txtIdProducto no esté vacía
-        if (!txtIdServicio.getText().equals("")) {
-            int confirmacion = JOptionPane.showConfirmDialog(rootPane, "¿Estás seguro de eliminar el servicio?","Confirmar",2);
+        // Evalua que mi txtIdConsumo no esté vacía
+        if (!txtIdConsumo.getText().equals("")) {
+            int confirmacion = JOptionPane.showConfirmDialog(rootPane, "¿Estás seguro de eliminar el consumo?","Confirmar",2);
 
             // Si el usuario confirma se procede a la eliminación
             if (confirmacion == 0) {
-                LogicaServicio logicaServicio = new LogicaServicio();
-                Servicio servicio = new Servicio();
+                LogicaConsumo logicaConsumo = new LogicaConsumo();
+                Consumo consumo = new Consumo();
 
-                servicio.setIdServicio(Integer.parseInt(txtIdServicio.getText()));
-                logicaServicio.eliminar(servicio);
-                mostrar("");
+                consumo.setIdConsumo(Integer.parseInt(txtIdConsumo.getText()));
+                logicaConsumo.eliminar(consumo);
+                mostrar(idReserva); // Muestra solo el consumo de la reserva
                 inHabilitar();
             }
         }
@@ -532,14 +504,22 @@ public class VistaServicio extends javax.swing.JFrame {
 
         int fila = tablaListado.rowAtPoint(evt.getPoint());
 
-        txtIdServicio.setText(tablaListado.getValueAt(fila, 0).toString());
-        txtNombre.setText(tablaListado.getValueAt(fila, 1).toString());
-        txtCantidad.setText(tablaListado.getValueAt(fila, 2).toString());
-        txtDescripcion.setText(tablaListado.getValueAt(fila, 3).toString());
-        txtCaracteristicas.setText(tablaListado.getValueAt(fila, 4).toString());
-        txtPrecio.setText(tablaListado.getValueAt(fila, 5).toString());
+        txtIdConsumo.setText(tablaListado.getValueAt(fila, 0).toString());
+        txtIdReserva.setText(tablaListado.getValueAt(fila, 1).toString());
+        txtIdServicio.setText(tablaListado.getValueAt(fila, 2).toString());
+        txtServicio.setText(tablaListado.getValueAt(fila, 3).toString());
+        txtCantidad.setText(tablaListado.getValueAt(fila, 4).toString());
+        txtPrecioVenta.setText(tablaListado.getValueAt(fila, 5).toString());
         cboEstado.setSelectedItem(tablaListado.getValueAt(fila, 6).toString());
     }//GEN-LAST:event_tablaListadoMouseClicked
+
+    private void btnBuscaServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscaServicioActionPerformed
+        // TODO add your handling code here:
+        VistaOpcionServicio vistaOpcionServicio = new VistaOpcionServicio();
+
+        vistaOpcionServicio.toFront(); // Aparece delante de cualquier formulario
+        vistaOpcionServicio.setVisible(true); // Si está oculto, que aparezca
+    }//GEN-LAST:event_btnBuscaServicioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -558,27 +538,29 @@ public class VistaServicio extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VistaServicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaConsumo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VistaServicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaConsumo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VistaServicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaConsumo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VistaServicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaConsumo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VistaServicio().setVisible(true);
+                new VistaConsumo().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnBuscaServicio;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
@@ -588,23 +570,21 @@ public class VistaServicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable tablaListado;
+    private javax.swing.JLabel totalConsumos;
     private javax.swing.JLabel totalRegistros;
-    private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCantidad;
-    private javax.swing.JTextArea txtCaracteristicas;
-    private javax.swing.JTextArea txtDescripcion;
-    private javax.swing.JTextField txtIdServicio;
-    private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtPrecio;
+    private javax.swing.JTextField txtCliente;
+    private javax.swing.JTextField txtIdConsumo;
+    private javax.swing.JTextField txtIdReserva;
+    public static javax.swing.JTextField txtIdServicio;
+    public static javax.swing.JTextField txtPrecioVenta;
+    public static javax.swing.JTextField txtServicio;
     // End of variables declaration//GEN-END:variables
 }
