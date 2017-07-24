@@ -37,7 +37,7 @@ public class DBConsumo {
                 // la tabla Servicio 
                 registro[0] = rs.getString("idConsumo");
                 registro[1] = rs.getString("idReserva");
-                registro[2] = rs.getString("idProducto");
+                registro[2] = rs.getString("idServicio");
                 registro[3] = rs.getString("nombre");
                 registro[4] = rs.getString("cantidad");
                 registro[5] = rs.getString("precioVenta");

@@ -128,4 +128,55 @@ public class LogicaServicio {
             return false;
         }
     }
+    
+    public boolean desocupar(Servicio servicio) {
+        // Modifica el estado el servicio a Disponible
+        sSQL = "update Servicio set estado='Disponible' where idServicio=?";
+        
+        try {
+            // Contiene la cadena SQL para editar un registro
+            PreparedStatement pst = logicaConexion.abrirConexion().prepareStatement(sSQL);
+            
+            // Envia uno a uno todos los valores a la instrucción SQL
+            pst.setInt(1, servicio.getIdServicio());
+            
+            int n = pst.executeUpdate(); // Almacena el resultado de la ejecucion de la cadena SQL
+            
+            // Se cumple o no la edición de registros en la tabla Habitacion
+            if (n != 0) {
+                return true; // Si se ha editado el registro
+            } else {
+                return false; // NO se ha editado el registro
+            }
+        } catch (SQLException e) {
+            JOptionPane.showConfirmDialog(null, e); // Muestra el error
+            return false;
+        }
+    }
+    
+    // Ocupa la habitación
+    public boolean ocupar(Servicio servicio) {
+        // Modifica el estado de la habitación a Ocupado
+        sSQL = "update Servicio set estado='Ocupado' where idServicio=?";
+        
+        try {
+            // Contiene la cadena SQL para editar un registro
+            PreparedStatement pst = logicaConexion.abrirConexion().prepareStatement(sSQL);
+            
+            // Envia uno a uno todos los valores a la instrucción SQL
+            pst.setInt(1, servicio.getIdServicio());
+            
+            int n = pst.executeUpdate(); // Almacena el resultado de la ejecucion de la cadena SQL
+            
+            // Se cumple o no la edición de registros en la tabla Habitacion
+            if (n != 0) {
+                return true; // Si se ha editado el registro
+            } else {
+                return false; // NO se ha editado el registro
+            }
+        } catch (SQLException e) {
+            JOptionPane.showConfirmDialog(null, e); // Muestra el error
+            return false;
+        }
+    }
 }

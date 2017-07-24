@@ -138,14 +138,14 @@ public class LogicaReserva {
         }
     }
     
-    /*// Edita un registro en la tabla Reserva
+    // Edita un registro en la tabla Reserva
     public boolean pagar(Reserva reserva) {
         // Modifica el estado de la reserva a Pagada
         sSQL = "update Reserva set estado='Pagada' where idReserva=?";
         
         try {
             // Contiene la cadena SQL para editar un registro
-            PreparedStatement pst = cn.prepareStatement(sSQL);
+            PreparedStatement pst = logicaConexion.abrirConexion().prepareStatement(sSQL);
             
             // Envia uno a uno todos los valores a la instrucción SQL
             pst.setInt(1, reserva.getIdReserva());
@@ -162,5 +162,5 @@ public class LogicaReserva {
             JOptionPane.showConfirmDialog(null, e); // Muestra el error
             return false;
         }
-    }*/
+    }
 }

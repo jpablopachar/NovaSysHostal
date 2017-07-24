@@ -126,6 +126,11 @@ public class VistaInicio extends javax.swing.JFrame {
 
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/pagos.png"))); // NOI18N
         jMenuItem1.setText("Pagos");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         mnuReservas.add(jMenuItem1);
 
         menuBar.add(mnuReservas);
@@ -230,6 +235,15 @@ public class VistaInicio extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_mnuSalirMouseClicked
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        VistaPago vistaPago = new VistaPago();
+        
+        escritorio.add(vistaPago);
+        vistaPago.toFront();
+        vistaPago.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -267,7 +281,7 @@ public class VistaInicio extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem contentMenuItem;
-    private javax.swing.JDesktopPane escritorio;
+    public static javax.swing.JDesktopPane escritorio;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;

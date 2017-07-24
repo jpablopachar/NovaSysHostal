@@ -26,8 +26,8 @@ public class LogicaConsumo {
             
             // Selecciona todos los registros de la tabla Consumo y filtra por idConsumo segun el parametro a buscar
             // de forma descendente
-            sSQL = "SELECT c.idConsumo, c.idReserva, c.Servicio, s.nombre, c.cantidad, c.precioVenta, c.estado"
-             + " FROM Consumo c INNER JOIN Servicio s ON c.idProducto = s.idProducto"
+            sSQL = "SELECT c.idConsumo, c.idReserva, c.idServicio, s.nombre, c.cantidad, c.precioVenta, c.estado"
+             + " FROM Consumo c INNER JOIN Servicio s ON c.idServicio = s.idServicio"
              + " WHERE c.idReserva = " + buscar + " ORDER BY idConsumo DESC";
             
             ResultSet rs = st.executeQuery(sSQL); // Guarda la instrucción SQL

@@ -6,8 +6,10 @@
 package GUI;
 
 import Clases.Reserva;
+import Clases.Servicio;
 import Database.DBReserva;
 import Logica.LogicaReserva;
+import Logica.LogicaServicio;
 import java.sql.Date;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
@@ -159,8 +161,13 @@ public class VistaReserva extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaListado = new javax.swing.JTable();
         totalRegistros = new javax.swing.JLabel();
+        btnConsumos = new javax.swing.JButton();
+        btnRealizarPagos = new javax.swing.JButton();
 
+        setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setIconifiable(true);
+        setMaximizable(true);
 
         jPanel2.setBackground(new java.awt.Color(0, 77, 64));
 
@@ -317,26 +324,23 @@ public class VistaReserva extends javax.swing.JInternalFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(btnBuscaCliente)
-                                            .addComponent(jLabel3))
-                                        .addGap(13, 13, 13)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(txtIdEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel8))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(cboTipoReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel5)))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel1)
-                                            .addComponent(txtIdReserva, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(143, 143, 143)))
+                                    .addComponent(jLabel1)
+                                    .addComponent(txtIdReserva, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(35, 35, 35)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnBuscaCliente)
+                                    .addComponent(jLabel3))
+                                .addGap(13, 13, 13)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtIdEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel8))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(cboTipoReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5))
                                 .addGap(9, 9, 9)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(dcFechaReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -355,7 +359,7 @@ public class VistaReserva extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnCancelar)
@@ -409,6 +413,20 @@ public class VistaReserva extends javax.swing.JInternalFrame {
         totalRegistros.setForeground(new java.awt.Color(255, 255, 255));
         totalRegistros.setText("Registros:");
 
+        btnConsumos.setText("Consumos");
+        btnConsumos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsumosActionPerformed(evt);
+            }
+        });
+
+        btnRealizarPagos.setText("Realizar Pago");
+        btnRealizarPagos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRealizarPagosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -416,7 +434,7 @@ public class VistaReserva extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 802, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -426,7 +444,10 @@ public class VistaReserva extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnSalir))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnConsumos)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRealizarPagos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(totalRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -444,7 +465,10 @@ public class VistaReserva extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(totalRegistros)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(totalRegistros)
+                    .addComponent(btnConsumos)
+                    .addComponent(btnRealizarPagos))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -575,6 +599,13 @@ public class VistaReserva extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(rootPane, "La reserva fue registrada correctamente");
                 mostrar(""); // Muestra todos los registros
                 inHabilitar();
+                
+                /*// Ocupamos el servicio alquilado
+                LogicaServicio logicaServicio = new LogicaServicio();
+                Servicio servicio = new Servicio();
+                
+                servicio.setIdServicio(Integer.parseInt(txtServicio.getText()));
+                logicaServicio.ocupar(servicio);*/
             }
         } else if (accion.equals("editar")) { // Acción para Editar
             reserva.setIdReserva(Integer.parseInt(txtIdReserva.getText()));
@@ -645,6 +676,37 @@ public class VistaReserva extends javax.swing.JInternalFrame {
         txtCostoAlojamiento.setText(tablaListado.getValueAt(fila, 9).toString());
         cboEstado.setSelectedItem(tablaListado.getValueAt(fila, 10).toString());
     }//GEN-LAST:event_tablaListadoMouseClicked
+
+    private void btnConsumosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsumosActionPerformed
+        // TODO add your handling code here:
+        int fila = tablaListado.getSelectedRow();
+        VistaConsumo.idReserva = tablaListado.getValueAt(fila, 0).toString();
+        VistaConsumo.cliente = tablaListado.getValueAt(fila, 2).toString();
+        
+        VistaConsumo vistaConsumo = new VistaConsumo();
+        
+        VistaInicio.escritorio.add(vistaConsumo);
+        
+        vistaConsumo.toFront();
+        vistaConsumo.setVisible(true);
+    }//GEN-LAST:event_btnConsumosActionPerformed
+
+    private void btnRealizarPagosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarPagosActionPerformed
+        // TODO add your handling code here:
+        int fila = tablaListado.getSelectedRow(); // Obtiene la fila donde el usuario ha hecho clic
+        
+        VistaPago.idReserva = tablaListado.getValueAt(fila, 0).toString();
+        //VistaPago.idHabitacion = tablaListado.getValueAt(fila, 1).toString();
+        //VistaPago.numHabitacion = tablaListado.getValueAt(fila, 2).toString();
+        VistaPago.cliente = tablaListado.getValueAt(fila, 4).toString();
+        VistaPago.totalReserva = Double.parseDouble(tablaListado.getValueAt(fila, 9).toString());
+        
+        VistaPago vistaPago = new VistaPago();
+        
+        VistaInicio.escritorio.add(vistaPago);
+        vistaPago.toFront();
+        vistaPago.setVisible(true);
+    }//GEN-LAST:event_btnRealizarPagosActionPerformed
 //txtIdEmpleado
     /**
      * @param args the command line arguments
@@ -688,9 +750,11 @@ public class VistaReserva extends javax.swing.JInternalFrame {
     public static javax.swing.JButton btnBuscaCliente;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnConsumos;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
+    private javax.swing.JButton btnRealizarPagos;
     private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> cboEstado;
     private javax.swing.JComboBox<String> cboTipoReserva;

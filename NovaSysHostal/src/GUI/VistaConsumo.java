@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
     Modulo: Interfaz de usuario de la ventana Consumo
 */
 
-public class VistaConsumo extends javax.swing.JFrame {
+public class VistaConsumo extends javax.swing.JInternalFrame {
     public static String idReserva; // Almacena el idReserva de la tabla Consumo
     public static String cliente; // Almacena el nombre del cliente de la tabla Consumo
 
@@ -144,7 +144,7 @@ public class VistaConsumo extends javax.swing.JFrame {
         totalRegistros = new javax.swing.JLabel();
         totalConsumos = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(130, 119, 23));
 
@@ -289,7 +289,7 @@ public class VistaConsumo extends javax.swing.JFrame {
                     .addComponent(btnNuevo)
                     .addComponent(btnGuardar)
                     .addComponent(btnCancelar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jPanel1.setBackground(new java.awt.Color(130, 119, 23));
@@ -452,6 +452,13 @@ public class VistaConsumo extends javax.swing.JFrame {
                     " del cliente " + txtCliente.getText() + " se registró correctamente");
                 mostrar(idReserva); // Muestra solo el consumo de la reserva
                 inHabilitar();
+                
+                // Ocupamos el servicio alquilado
+                LogicaServicio logicaServicio = new LogicaServicio();
+                Servicio servicio = new Servicio();
+                
+                servicio.setIdServicio(Integer.parseInt(txtServicio.getText()));
+                logicaServicio.ocupar(servicio);
             }
         } else if (accion.equals("editar")) { // Acción para Editar
             consumo.setIdConsumo(Integer.parseInt(txtIdConsumo.getText()));

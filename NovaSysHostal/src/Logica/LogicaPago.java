@@ -45,7 +45,7 @@ public class LogicaPago {
             PreparedStatement pst = logicaConexion.abrirConexion().prepareStatement(sSQL);
             
             // Envia uno a uno todos los valores a la instrucción SQL
-            pst.setInt(1, pago.getIdPago());
+            pst.setInt(1, pago.getIdReserva());
             pst.setString(2, pago.getTipoComprobante());
             pst.setString(3, pago.getNumComprobante());
             pst.setDouble(4, pago.getIva());

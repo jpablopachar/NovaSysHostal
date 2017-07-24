@@ -189,7 +189,7 @@ public class VistaOpcionServicio extends javax.swing.JFrame {
             
             codigo = tablaListado.getValueAt(fila, 0).toString();
             valor1 = tablaListado.getValueAt(fila, 1).toString();
-            valor2 = tablaListado.getValueAt(fila, 4).toString();
+            valor2 = tablaListado.getValueAt(fila, 5).toString();
             
             // Enviamos los valores a la VistaConsumo
             VistaConsumo.txtIdServicio.setText(codigo);
